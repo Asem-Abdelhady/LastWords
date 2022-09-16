@@ -4,10 +4,10 @@ const { networkConfig } = require("../helper-hardhat-config")
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
-    console.log("deployer : ", deployer)
 
     const accounts = await ethers.getSigners()
     const chainId = network.config.chainId
+    console.log("Chain ID from manager", chainId)
 
     const lastWordsNft = await ethers.getContract("LastWordsNft")
     const registerationsFee = networkConfig[chainId]["registerationsFee"]
