@@ -8,7 +8,7 @@ async function uploadToIPFSAndMint() {
 
     const accounts = await ethers.getSigners()
 
-    const lastWordsNft = await ethers.getContract("LastWordsNft", accounts[0])
+    const lastWordsNft = await ethers.getContractAt("LastWordsNft", accounts[0].address)
     //upload(imageLocation)
     // [
     //     'ipfs://QmY9nfJ6iSYzUDgMvAMVw3ngguvhK9cuQzS6z8TgX1Ufuo',

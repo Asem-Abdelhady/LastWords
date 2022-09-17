@@ -137,6 +137,7 @@ contract LastWordsManager is KeeperCompatibleInterface {
         for (uint256 idx; idx < passedAwayUsers.length; idx++) {
             User memory user = s_addressToUser[passedAwayUsers[idx]];
             i_lastWordsNft.mintNft(user.tokenURI, passedAwayUsers[idx]);
+            delete (s_addressToUser[passedAwayUsers[idx]]);
             emit LastWordsSent(passedAwayUsers[idx], user.tokenURI);
         }
     }
