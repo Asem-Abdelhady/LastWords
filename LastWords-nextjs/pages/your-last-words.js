@@ -9,11 +9,11 @@ import LastWordsManagerAbi from "../constants/LastWordsManager.json"
 import { useEffect, useState } from "react"
 
 export default function Home() {
-    const { chainId, account, isWeb3Enabled } = useMoralis()
+    const { chainId, account, isWeb3Enabled, Moralis } = useMoralis()
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
     const LastWordsNftAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
     const contractAddresses = require("../constants/networkMapping.json")
-    const lastWordsManagerAddress = contractAddresses[chainString].LastWordsManager[0]
+    const lastWordsManagerAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512" //contractAddresses[chainString].LastWordsManager[0]
     const { runContractFunction } = useWeb3Contract()
     const dispatch = useNotification()
 
@@ -45,7 +45,6 @@ export default function Home() {
 
         try {
             const response = await pinata.pinJSONToIPFS(metadata)
-            console.log("here")
             return `ipfs://${response.IpfsHash}`
         } catch {
             return null
@@ -73,6 +72,7 @@ export default function Home() {
                     lastWords: lastWords,
                     tokenURI: tokenURI,
                 },
+                msgValue: Moralis.Units.ETH(2),
             },
             onError: (error) => console.log(error),
             onSuccess: handleAddUserSuccess,
@@ -108,19 +108,32 @@ export default function Home() {
     }
 
     async function getUserURI() {
+        console.log("Account: ", account)
+        console.log("ABI: ", LastWordsManagerAbi)
+        console.log("Address: ", lastWordsManagerAddress)
         const userURIFromContract = await runContractFunction({
             params: {
                 contractAddress: lastWordsManagerAddress,
                 abi: LastWordsManagerAbi,
-                functionName: "getTokenUri",
+                functionName: "getTokenURI",
                 params: {
                     user: account,
                 },
                 onError: (error) => console.log(error),
             },
         })
+        console.log("User From Contract: ", userURIFromContract)
 
-        if (userURIFromContract) setUserURI(userURIFromContract.toString())
+        if (userURIFromContract) {
+            setUserURI(userURIFromContract.toString())
+            const IpfsHash = userURI.slice(7)
+            console.log(IpfsHash)
+            const fetchlink = IpfsHash + ".ipfs.localhost:8080"
+            console.log("Fetch link: ", fetchlink)
+            const data = await fetch(fetchlink)
+            const json = await data.json()
+            console.log(json)
+        }
     }
     useEffect(() => {
         if (isWeb3Enabled) getUserURI()
