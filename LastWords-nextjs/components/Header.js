@@ -1,19 +1,25 @@
 import { ConnectButton } from "web3uikit"
 import Link from "next/link"
+import { Nav, Navbar, Container } from "react-bootstrap"
 
 export default function Header() {
     return (
-        <nav className="p-5 border-b-2 flex flex-row justify-between items-center">
-            <h1 className="py-4 px-4 font-bold text-3xl">Last Words Gallery</h1>
-            <div className="flex flex-row items-center">
+        <Navbar className="p-3 border-b-2 flex flex-row justify-between items-center">
+            <h1 className="py-3 px-3 font-bold text-2xl">Last Words Gallery</h1>
+            <Navbar.Collapse id="responsive-navbar-nav"></Navbar.Collapse>
+
+            <Nav className="me-auto">
                 <Link href="/">
-                    <a className="mr-4 p-6">Home</a>
+                    <a className="mr-4 p-6 text-decoration-none">Home</a>
                 </Link>
                 <Link href="/your-last-words">
-                    <a className="mr-4 p-6">Your Last Words</a>
+                    <a className="mr-4 p-6 text-decoration-none">Your Last Words</a>
                 </Link>
-            </div>
-            <ConnectButton moralisAuth={false} />
-        </nav>
+            </Nav>
+
+            <Nav>
+                <ConnectButton moralisAuth={false} />
+            </Nav>
+        </Navbar>
     )
 }

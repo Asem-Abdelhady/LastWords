@@ -4,6 +4,8 @@ import Header from "../components/Header"
 import Head from "next/head"
 import { NotificationProvider } from "web3uikit"
 
+import "bootstrap/dist/css/bootstrap.min.css"
+
 const APP_ID = process.env.NEXT_PUBLIC_APP_ID
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL
 console.log("APP_ID: ", APP_ID)
