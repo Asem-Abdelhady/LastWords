@@ -1,17 +1,88 @@
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
+import { useState, useEffect } from "react"
+import { useWeb3Contract, useMoralis } from "react-moralis"
+import LastWordsModal from "./LastWordsModal"
+import LastWordsNftAbi from "../constants/LastWordsNft.json"
 
-export default function PassedAwayUser({ tokenURI, LastWrodsManagerAddress, owner }) {
+export default function PassedAwayUser({ tokenId, owner }) {
+    const LastWordsNftAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+    const { isWeb3Enabled, account } = useMoralis()
+
+    const [tokenURI, setTokenURI] = useState("")
+    const [showModal, setShowModal] = useState("")
+    const [userImageURI, setUserImageURI] = useState("0")
+    const [userName, setUserName] = useState("0")
+    const [userCity, setUserCity] = useState("0")
+    const [userLastWords, setUserLastWords] = useState("0")
+    const [userAge, setUserAge] = useState("0")
+    const [userInterval, setUserInterval] = useState("0")
+
+    const { runContractFunction: getTokenURI } = useWeb3Contract({
+        abi: LastWordsNftAbi,
+        contractAddress: LastWordsNftAddress,
+        functionName: "tokenURI",
+        params: {
+            tokenId: tokenId,
+        },
+    })
+
+    async function updateUI() {
+        const tokenURI = await getTokenURI()
+        const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        const tokenURIResponse = await (await fetch(requestURL)).json()
+        const imageURI = tokenURIResponse.image
+        const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        const userName = tokenURIResponse.name
+        const lastWords = tokenURIResponse.description
+        const interval = tokenURIResponse.attributes[0].value
+        const age = tokenURIResponse.attributes[1].value
+        const city = tokenURIResponse.attributes[2].value
+
+        //console.log("Response: ", tokenURIResponse)
+        setUserImageURI(imageURIURL)
+        setUserInterval(interval)
+        setUserAge(age)
+        setUserCity(city)
+        setUserLastWords(lastWords)
+        setUserName(userName)
+    }
+
+    const showLastWords = () => {
+        userLastWords != "0" ? setShowModal(true) : console.log("data not available")
+    }
+    useEffect(() => {
+        if (isWeb3Enabled) {
+            updateUI()
+        }
+    }, [isWeb3Enabled])
+
     return (
-        <Card>
-            <Card.Header as="h5">Featured</Card.Header>
-            <Card.Body>
-                <Card.Title>Special title treatment</Card.Title>
-                <Card.Text>
-                    With supporting text below as a natural lead-in to additional content.
-                </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-        </Card>
+        <div>
+            {userImageURI != "0" ? (
+                <div>
+                    <LastWordsModal
+                        isVisible={showModal}
+                        onClose={() => setShowModal(false)}
+                        name={userName}
+                        lastWords={userLastWords}
+                    />
+
+                    <Card>
+                        <Card.Img variant="left" src={userImageURI}></Card.Img>
+                        <Card.Header as="h5">{userName}</Card.Header>
+                        <Card.Body>
+                            <Card.Title>Last Words: </Card.Title>
+                            <Card.Text>{userLastWords}</Card.Text>
+                            <Button variant="primary" onClick={showLastWords}>
+                                Show the whole last words
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                </div>
+            ) : (
+                <div>Loading...</div>
+            )}
+        </div>
     )
 }

@@ -2,6 +2,7 @@ Moralis.Cloud.afterSave("NftMinted", async (request) => {
     const confirmed = request.object.get("confirmed")
     const logger = Moralis.Cloud.getLogger()
     logger.info("Looking for confirmed Tx")
+    logger.info(`URL: ${String(request.object.get("tokenURI"))}`)
 
     if (confirmed) {
         logger.info("Found Item!")
@@ -9,6 +10,7 @@ Moralis.Cloud.afterSave("NftMinted", async (request) => {
 
         const query = new Moralis.Query(PassedAwayUser)
         query.equalTo("holder", request.object.get("holder"))
+        query.equalTo("holder", request.object.get("tokenId"))
         query.equalTo("tokenURI", request.object.get("tokenURI"))
 
         logger.info(`LastWordsNft | Query: ${query}`)
@@ -19,7 +21,7 @@ Moralis.Cloud.afterSave("NftMinted", async (request) => {
             await alreadyListedItem.destroy()
             logger.info(
                 `Deleted item with tokenId ${request.object.get(
-                    "holder"
+                    "tokenId"
                 )} at address ${request.object.get(
                     "tokenURI"
                 )} since the listing is being updated. `
@@ -29,6 +31,7 @@ Moralis.Cloud.afterSave("NftMinted", async (request) => {
         //create new Entry in the ActiveItem
         const passedAwayUser = new PassedAwayUser()
         passedAwayUser.set("holder", request.object.get("holder"))
+        passedAwayUser.set("tokenId", request.object.get("tokenId"))
         passedAwayUser.set("tokenURI", request.object.get("tokenURI"))
 
         logger.info(

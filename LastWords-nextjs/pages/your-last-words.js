@@ -14,22 +14,23 @@ const pinataApiSecret = process.env.NEXT_PUBLIC_PINATA_API_SECRET || ""
 const pinata = pinataSDK(pinataApiKey, pinataApiSecret)
 
 export default function Home() {
+    const URI = "ipfs://QmQa3bHiom1xUimBi21M3GuAPvqtgqCB6wo6BC5b5LuiNb"
     const { chainId, account, isWeb3Enabled, Moralis } = useMoralis()
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
     const LastWordsNftAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
     const contractAddresses = require("../constants/networkMapping.json")
     const lastWordsManagerAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512" //contractAddresses[chainString].LastWordsManager[0]
-    const [userImageURI, setUserImageURI] = useState("0")
-    const [userName, setUserName] = useState("0")
-    const [userCity, setUserCity] = useState("0")
-    const [userLastWords, setUserLastWords] = useState("0")
-    const [userAge, setUserAge] = useState("0")
-    const [userInterval, setUserInterval] = useState("0")
+    const [userImageURI, setUserImageURI] = useState("")
+    const [userName, setUserName] = useState("")
+    const [userCity, setUserCity] = useState("")
+    const [userLastWords, setUserLastWords] = useState("")
+    const [userAge, setUserAge] = useState()
+    const [userInterval, setUserInterval] = useState()
 
     const { runContractFunction } = useWeb3Contract()
     const dispatch = useNotification()
 
-    const [userURI, setUserURI] = useState("0")
+    const [userURI, setUserURI] = useState("")
 
     async function uploadToPinata(name, interval, photoIPFS, age, city, lastWords) {
         const metadata = {
@@ -93,8 +94,9 @@ export default function Home() {
     async function handleAddUserSuccess(tx) {
         await tx.wait(1)
         dispatch({
+            title: "Added!",
             type: "success",
-            message: "user Added, please referesh",
+            message: "User added, please referesh",
             position: "topR",
         })
     }
@@ -106,7 +108,7 @@ export default function Home() {
             chainId: 31337,
             params: {
                 holder: account,
-                tokenURI: "ipfs://QmY9nfJ6iSYzUDgMvAMVw3ngguvhK9cuQzS6z8TgX1Ufuo",
+                tokenURI: URI,
             },
         }
 
@@ -134,42 +136,47 @@ export default function Home() {
 
         if (userURIFromContract) {
             setUserURI(userURIFromContract.toString())
-            setUserData(userURIFromContract)
         }
     }
 
     async function setUserData(tokenURI) {
-        if (tokenURI) {
-            const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-            const tokenURIResponse = await (await fetch(requestURL)).json()
-            const imageURI = tokenURIResponse.image
-            const userName = tokenURIResponse.name
-            const lastWords = tokenURIResponse.description
-            const interval = tokenURIResponse.attributes[0].value
-            const age = tokenURIResponse.attributes[1].value
-            const city = tokenURIResponse.attributes[2].value
+        const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        const tokenURIResponse = await (await fetch(requestURL)).json()
+        const imageURI = tokenURIResponse.image
+        const userName = tokenURIResponse.name
+        const lastWords = tokenURIResponse.description
+        const interval = tokenURIResponse.attributes[0].value
+        const age = tokenURIResponse.attributes[1].value
+        const city = tokenURIResponse.attributes[2].value
 
-            console.log("Response: ", tokenURIResponse)
-            setUserImageURI(imageURI)
-            setUserInterval(interval)
-            setUserAge(age)
-            setUserCity(city)
-            setUserLastWords(lastWords)
-            setUserName(userName)
+        console.log("Response: ", tokenURIResponse)
+        setUserImageURI(imageURI)
+        setUserInterval(interval)
+        setUserAge(age)
+        setUserCity(city)
+        setUserLastWords(lastWords)
+        setUserName(userName)
 
-            //const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-            // setImageURI(imageURIURL)
-            // setTokenName(tokenURIResponse.name)
-            // setTokenDescription(tokenURIResponse.description)
-        }
+        //const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        // setImageURI(imageURIURL)
+        // setTokenName(tokenURIResponse.name)
+        // setTokenDescription(tokenURIResponse.description)
     }
     useEffect(() => {
-        if (isWeb3Enabled) getUserURI()
+        if (isWeb3Enabled) {
+            getUserURI()
+        }
     }, [userURI, account, isWeb3Enabled, chainId])
+
+    useEffect(() => {
+        if (isWeb3Enabled) {
+            setUserData(userURI)
+        }
+    }, [userURI, isWeb3Enabled])
 
     return (
         <div className={styles.container}>
-            {userURI != "0" ? (
+            {userURI != "" && userLastWords != "" ? (
                 <div>
                     <Form
                         onSubmit={addUser}

@@ -11,7 +11,7 @@ contract LastWordsNft is ERC721URIStorage {
 
     uint256 public s_tokenCounter;
 
-    event NftMinted(address indexed holder, string indexed tokenURI);
+    event NftMinted(address indexed holder, uint256 indexed tokenId, string indexed tokenURI);
 
     constructor() ERC721("Last Words NFT", "LNFT") {}
 
@@ -26,7 +26,7 @@ contract LastWordsNft is ERC721URIStorage {
 
         _safeMint(holder, newTokenId);
         _setTokenURI(newTokenId, tokenURI);
-        emit NftMinted(holder, tokenURI);
+        emit NftMinted(holder, newTokenId, tokenURI);
     }
 
     function getTokenCounter() public view returns (uint256) {
