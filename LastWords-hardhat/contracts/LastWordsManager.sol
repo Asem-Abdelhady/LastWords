@@ -40,6 +40,8 @@ contract LastWordsManager is KeeperCompatibleInterface {
     event EmailAdded(address indexed userAddress, string reciever);
     event InervalSetFromUser(uint256 interval, address indexed user);
     event LastWordsSent(address indexed passedAwayUserAddress, string indexed passedAwayUserURI);
+    event UpkeepPerformed(string indexed);
+    event InsideLastWords(string indexed);
 
     constructor(uint256 regsiterationFee, address lastWordsNftAddress) {
         i_regsiterationFee = regsiterationFee;
@@ -64,15 +66,28 @@ contract LastWordsManager is KeeperCompatibleInterface {
 
     function checkUpkeep(
         bytes calldata /*checkData*/
-    ) external override returns (bool upkeepNeeded, bytes memory performData) {
-        console.log("Here from contract 0");
-        address[] memory deadUsers = getDeadUsers();
-        upkeepNeeded = deadUsers.length > 0;
-
+    ) public view override returns (bool upkeepNeeded, bytes memory performData) {
+        address[] memory users = s_users;
+        address[] memory deadUsers = new address[](users.length);
+        uint256 count = 0;
+        for (uint256 idx = 0; idx < s_users.length; idx++) {
+            address userAddress = users[idx];
+            uint256 interval = s_addressToUser[userAddress].interval;
+            uint256 lastTimeStamp = s_addressToUser[userAddress].lastTimeStamp;
+            if (block.timestamp - lastTimeStamp >= interval) {
+                deadUsers[count] = userAddress;
+                count++;
+            }
+        }
+        uint256 memory trying[]= [1 ,2 ,3];
+        upkeepNeeded = s_users.length > 0 && deadUsers[0] != address(0);
+        
         performData = abi.encode(deadUsers);
+        return (upkeepNeeded, performData);
     }
 
     function performUpkeep(bytes calldata performData) external override {
+        emit UpkeepPerformed("performeeeeeeed");
         address[] memory deadUsers = abi.decode(performData, (address[]));
         sendLastWords(deadUsers);
     }
@@ -90,8 +105,7 @@ contract LastWordsManager is KeeperCompatibleInterface {
 
     function getRestOfInterval(address user) public view returns (uint256) {
         uint256 restOfInterval = s_addressToUser[user].interval -
-            block.timestamp -
-            s_addressToUser[msg.sender].lastTimeStamp;
+            (block.timestamp - s_addressToUser[user].lastTimeStamp);
 
         return restOfInterval;
     }
@@ -116,17 +130,33 @@ contract LastWordsManager is KeeperCompatibleInterface {
         return i_lastWordsNft.symbol();
     }
 
+    function getUserLastTimeStamp(address user) public view returns (uint256) {
+        return s_addressToUser[user].lastTimeStamp;
+    }
+
+    function getBlockStampTime() public view returns (uint256) {
+        return block.timestamp;
+    }
+
+    function getTimePassed(address user) public view returns (uint256) {
+        return (block.timestamp - s_addressToUser[user].lastTimeStamp) + 1;
+    }
+
+    function isTimePassed(address user) public view returns (bool) {
+        return ((block.timestamp - s_addressToUser[user].lastTimeStamp) >=
+            s_addressToUser[user].interval);
+    }
+
     function getDeadUsers() public view returns (address[] memory) {
         address[] memory users = s_users;
         address[] memory deadUsers = new address[](users.length);
         uint256 count = 0;
-        for (uint256 idx; idx < s_users.length; idx++) {
+        for (uint256 idx = 0; idx < s_users.length; idx++) {
             address userAddress = users[idx];
             uint256 interval = s_addressToUser[userAddress].interval;
             uint256 lastTimeStamp = s_addressToUser[userAddress].lastTimeStamp;
             if (block.timestamp - lastTimeStamp >= interval) {
                 deadUsers[count] = userAddress;
-
                 count++;
             }
         }
@@ -134,7 +164,8 @@ contract LastWordsManager is KeeperCompatibleInterface {
     }
 
     function sendLastWords(address[] memory passedAwayUsers) public {
-        for (uint256 idx; idx < passedAwayUsers.length; idx++) {
+        emit InsideLastWords("inside last words");
+        for (uint256 idx = 0; idx < passedAwayUsers.length; idx++) {
             User memory user = s_addressToUser[passedAwayUsers[idx]];
             i_lastWordsNft.mintNft(user.tokenURI, passedAwayUsers[idx]);
             delete (s_addressToUser[passedAwayUsers[idx]]);

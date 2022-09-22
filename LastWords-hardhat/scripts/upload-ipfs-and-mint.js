@@ -8,7 +8,7 @@ async function uploadToIPFSAndMint() {
 
     const accounts = await ethers.getSigners()
 
-    const lastWordsNft = await ethers.getContractAt("LastWordsNft", accounts[0].address)
+    const lastWordsNft = await ethers.getContract("LastWordsNft")
     //upload(imageLocation)
     // [
     //     'ipfs://QmY9nfJ6iSYzUDgMvAMVw3ngguvhK9cuQzS6z8TgX1Ufuo',
@@ -17,7 +17,7 @@ async function uploadToIPFSAndMint() {
     const tokenURI = "ipfs://QmY9nfJ6iSYzUDgMvAMVw3ngguvhK9cuQzS6z8TgX1Ufuo"
 
     console.log("minting")
-    const response = await lastWordsNft.mintNft(tokenURI, accounts[0].address)
+    const response = await lastWordsNft.mintNft(tokenURI)
     console.log("contract address: ", lastWordsNft.address)
     const responeReceipt = await response.wait(1)
     console.log("Event: ", responeReceipt.events[0])

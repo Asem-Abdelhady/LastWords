@@ -17,9 +17,9 @@ export default function Home() {
     const URI = "ipfs://QmQa3bHiom1xUimBi21M3GuAPvqtgqCB6wo6BC5b5LuiNb"
     const { chainId, account, isWeb3Enabled, Moralis } = useMoralis()
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
-    const LastWordsNftAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+    const LastWordsNftAddress = "0x669F829D85D9b275F9E07683D3cc8692f27F6491" //"0x5fbdb2315678afecb367f032d93f642f64180aa3"
     const contractAddresses = require("../constants/networkMapping.json")
-    const lastWordsManagerAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512" //contractAddresses[chainString].LastWordsManager[0]
+    const lastWordsManagerAddress = "0x8854AAD474cd811EFEf1c884715d6a2257394915" //contractAddresses[chainString].LastWordsManager[0]"0xfdc85F8dE4EfC0635c3369B36a2711D9F12145E6"
     const [userImageURI, setUserImageURI] = useState("")
     const [userName, setUserName] = useState("")
     const [userCity, setUserCity] = useState("")
@@ -27,6 +27,7 @@ export default function Home() {
     const [userAge, setUserAge] = useState()
     const [userInterval, setUserInterval] = useState()
 
+    const [isDataSet, setIsDataSet] = useState()
     const { runContractFunction } = useWeb3Contract()
     const dispatch = useNotification()
 
@@ -84,7 +85,7 @@ export default function Home() {
                     lastWords: lastWords,
                     tokenURI: tokenURI,
                 },
-                msgValue: Moralis.Units.ETH(2),
+                msgValue: Moralis.Units.ETH(0.0001),
             },
             onError: (error) => console.log(error),
             onSuccess: handleAddUserSuccess,
@@ -100,6 +101,120 @@ export default function Home() {
             position: "topR",
         })
     }
+
+    async function getUsersNumber() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getNumberOfUsers",
+                params: {},
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("Number of users: ", number.toString())
+    }
+    async function getUserInterval() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getInterval",
+                params: {
+                    user: account,
+                },
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("Interval: ", number.toString())
+    }
+
+    async function getUserRestOfInterval() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getRestOfInterval",
+                params: {
+                    user: account,
+                },
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("reset Of interval: ", number.toString())
+    }
+
+    async function getBlockTimeStamp() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getBlockStampTime",
+                params: {},
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("BlockStamp: ", number.toString())
+    }
+
+    async function getLastTimeStamp() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getUserLastTimeStamp",
+                params: {
+                    user: account,
+                },
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("userLastTime: ", number.toString())
+    }
+
+    async function timePassed() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getTimePassed",
+                params: {
+                    user: account,
+                },
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("timePassed: ", number.toString())
+    }
+
+    async function isTimePassed() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "isTimePassed",
+                params: {
+                    user: account,
+                },
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("isTimePassed: ", number)
+    }
+
+    async function getDeadUsers() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "getDeadUsers",
+                params: {},
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("Dead Users: ", number)
+    }
+
     async function mint() {
         const mintOptions = {
             abi: LastWordsNftAbi,
@@ -135,7 +250,12 @@ export default function Home() {
         console.log("User From Contract: ", userURIFromContract)
 
         if (userURIFromContract) {
+            console.log("inside if: ")
             setUserURI(userURIFromContract.toString())
+            console.log("userURI: ", userURI)
+            setUserData(userURIFromContract)
+            setIsDataSet(true)
+            console.log("Data set")
         }
     }
 
@@ -176,7 +296,7 @@ export default function Home() {
 
     return (
         <div className={styles.container}>
-            {userURI != "" && userLastWords != "" ? (
+            {isDataSet ? (
                 <div>
                     <Form
                         onSubmit={addUser}
@@ -239,11 +359,31 @@ export default function Home() {
                             },
                         ]}
                         title={`Hello ${userName}, take a look at your data and see if you want to edit`}
-                        isDisabled="true"
+                        isDisabled={true}
                         id="Main Form"
                         buttonConfig={{ theme: "primary" }}
                     ></Form>
                     <Button theme="secondary" text="mint" onClick={mint}></Button>
+                    <Button theme="secondary" text="usersNumber" onClick={getUsersNumber}></Button>
+                    <Button theme="secondary" text="interval" onClick={getUserInterval}></Button>
+                    <Button
+                        theme="secondary"
+                        text="blockStamp"
+                        onClick={getBlockTimeStamp}
+                    ></Button>
+                    <Button
+                        theme="secondary"
+                        text="lastTimeStamp"
+                        onClick={getLastTimeStamp}
+                    ></Button>
+                    <Button
+                        theme="secondary"
+                        text="resetOfInterval"
+                        onClick={getUserRestOfInterval}
+                    ></Button>
+                    <Button theme="secondary" text="timePassed" onClick={timePassed}></Button>
+                    <Button theme="secondary" text="isTimePassed" onClick={isTimePassed}></Button>
+                    <Button theme="secondary" text="deadUers" onClick={getDeadUsers}></Button>
                 </div>
             ) : (
                 <div>

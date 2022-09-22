@@ -1,5 +1,7 @@
 const { ethers, network } = require("hardhat")
 const { networkConfig } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
+const { developmentChains } = require("../helper-hardhat-config")
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
@@ -21,7 +23,11 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         waitConfirmations: network.config.blockConfirmations || 1,
     })
 
-    console.log("----------------------------")
+    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying...")
+        await verify(lastWordsManager.address, args)
+    }
+    log("----------------------------------------------------")
 }
 
 module.exports.tags = ["all", "manager"]

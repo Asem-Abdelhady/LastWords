@@ -6,7 +6,7 @@ import LastWordsModal from "./LastWordsModal"
 import LastWordsNftAbi from "../constants/LastWordsNft.json"
 
 export default function PassedAwayUser({ tokenId, owner }) {
-    const LastWordsNftAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+    const LastWordsNftAddress = "0x669F829D85D9b275F9E07683D3cc8692f27F6491"
     const { isWeb3Enabled, account } = useMoralis()
 
     const [tokenURI, setTokenURI] = useState("")
