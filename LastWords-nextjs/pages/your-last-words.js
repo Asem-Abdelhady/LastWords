@@ -19,7 +19,7 @@ export default function Home() {
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
     const LastWordsNftAddress = "0x669F829D85D9b275F9E07683D3cc8692f27F6491" //"0x5fbdb2315678afecb367f032d93f642f64180aa3"
     const contractAddresses = require("../constants/networkMapping.json")
-    const lastWordsManagerAddress = "0x8854AAD474cd811EFEf1c884715d6a2257394915" //contractAddresses[chainString].LastWordsManager[0]"0xfdc85F8dE4EfC0635c3369B36a2711D9F12145E6"
+    const lastWordsManagerAddress = "0x73d08047f4b06C27d6A3a77C587554D686f3ddF9" //contractAddresses[chainString].LastWordsManager[0]"0xfdc85F8dE4EfC0635c3369B36a2711D9F12145E6"
     const [userImageURI, setUserImageURI] = useState("")
     const [userName, setUserName] = useState("")
     const [userCity, setUserCity] = useState("")
@@ -215,6 +215,19 @@ export default function Home() {
         console.log("Dead Users: ", number)
     }
 
+    async function sendLastWords() {
+        const number = await runContractFunction({
+            params: {
+                contractAddress: lastWordsManagerAddress,
+                abi: LastWordsManagerAbi,
+                functionName: "sendLastWords",
+                params: {},
+                onError: (error) => console.log(error),
+            },
+        })
+        console.log("sendLastWords: ", number)
+    }
+
     async function mint() {
         const mintOptions = {
             abi: LastWordsNftAbi,
@@ -384,6 +397,11 @@ export default function Home() {
                     <Button theme="secondary" text="timePassed" onClick={timePassed}></Button>
                     <Button theme="secondary" text="isTimePassed" onClick={isTimePassed}></Button>
                     <Button theme="secondary" text="deadUers" onClick={getDeadUsers}></Button>
+                    <Button
+                        theme="secondary"
+                        text="sendLastWords"
+                        onClick={sendLastWords}
+                    ></Button>
                 </div>
             ) : (
                 <div>

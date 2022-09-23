@@ -13,8 +13,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
     const lastWordsNft = await ethers.getContract("LastWordsNft")
     const registerationsFee = networkConfig[chainId]["registerationsFee"]
+    const interval = networkConfig[chainId]["interval"]
 
-    const args = [registerationsFee, lastWordsNft.address]
+    const args = [registerationsFee, interval, lastWordsNft.address]
 
     const lastWordsManager = await deploy("LastWordsManager", {
         from: deployer,
