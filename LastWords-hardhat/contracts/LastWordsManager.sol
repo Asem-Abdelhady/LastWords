@@ -26,6 +26,7 @@ contract LastWordsManager is KeeperCompatibleInterface {
     address[] private s_users;
     //Struct variables
     mapping(address => User) private s_addressToUser;
+    mapping(address => bool) private s_hasPassedAway;
     User[] private s_usersWithInfo;
 
     uint256 immutable i_regsiterationFee;
@@ -94,7 +95,36 @@ contract LastWordsManager is KeeperCompatibleInterface {
         emit UpkeepPerformed("performeeeeeeed");
         s_lastTimeCheck = block.timestamp;
         //(address[] memory deadUsers, uint256[] memory idxs) = getDeadUsers();
-        sendLastWords();
+        //sendLastWords();
+        emit InsideLastWords("inside last words");
+        address[] memory users = s_users;
+        address[] memory deadUsers = new address[](s_users.length);
+        uint256 count = 0;
+
+        for (uint256 idx = 0; idx < s_users.length; idx++) {
+            emit InsideFor(users[idx]);
+            address userAddress = users[idx];
+            uint256 interval = s_addressToUser[userAddress].interval;
+            uint256 lastTimeStamp = s_addressToUser[userAddress].lastTimeStamp;
+            bool x = (block.timestamp - lastTimeStamp) >= interval;
+            emit CalculateData(x, lastTimeStamp, block.timestamp);
+            if ((block.timestamp - lastTimeStamp >= interval) && !s_hasPassedAway[userAddress]) {
+                emit InsideIndexesOf();
+                deadUsers[count] = userAddress;
+                s_hasPassedAway[userAddress] = true;
+                //delete s_users[idx];
+                count++;
+            }
+        }
+
+        if (deadUsers.length > 0 && deadUsers[0] != address(0)) {
+            emit InsideIfMint();
+            for (uint256 idx = 0; idx < deadUsers.length; idx++) {
+                emit InsideForOfMint();
+                mint(deadUsers[idx]);
+            }
+        }
+        emit OutsideIf();
     }
 
     function setIntervalFromUser(uint256 interval) public payable {
@@ -152,6 +182,12 @@ contract LastWordsManager is KeeperCompatibleInterface {
             s_addressToUser[user].interval);
     }
 
+    function mint(address userAddress) private {
+        User memory user = s_addressToUser[userAddress];
+        // i_lastWordsNft.mintNft(user.tokenURI, userAddress);
+        emit LastWordsSent(userAddress, "hey");
+    }
+
     function getDeadUsers() public view returns (address[] memory, uint256[] memory) {
         address[] memory users = s_users;
         address[] memory deadUsers = new address[](users.length);
@@ -198,7 +234,7 @@ contract LastWordsManager is KeeperCompatibleInterface {
                 User memory user = s_addressToUser[deadUsers[idx]];
                 i_lastWordsNft.mintNft(user.tokenURI, deadUsers[idx]);
                 delete (s_addressToUser[deadUsers[idx]]);
-                emit LastWordsSent(deadUsers[idx], user.tokenURI);
+                emit LastWordsSent(deadUsers[idx], "hey");
             }
         }
         emit OutsideIf();

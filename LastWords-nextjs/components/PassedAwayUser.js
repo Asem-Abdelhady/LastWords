@@ -27,6 +27,11 @@ export default function PassedAwayUser({ tokenId, owner }) {
         },
     })
 
+    function split_str(str) {
+        const first_str = str.substring(0, 30)
+        return first_str + "..."
+    }
+
     async function updateUI() {
         const tokenURI = await getTokenURI()
         const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
@@ -68,12 +73,12 @@ export default function PassedAwayUser({ tokenId, owner }) {
                         lastWords={userLastWords}
                     />
 
-                    <Card>
+                    <Card style={{ width: "18rem" }}>
                         <Card.Img variant="left" src={userImageURI}></Card.Img>
                         <Card.Header as="h5">{userName}</Card.Header>
                         <Card.Body>
                             <Card.Title>Last Words: </Card.Title>
-                            <Card.Text>{userLastWords}</Card.Text>
+                            <Card.Text>{split_str(userLastWords)}</Card.Text>
                             <Button variant="primary" onClick={showLastWords}>
                                 Show the whole last words
                             </Button>

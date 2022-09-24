@@ -14,33 +14,29 @@ export default function Home() {
 
     return (
         <div className="container mx-auto">
-            <h1 className="font-bold text-2xl">Receently passed away people</h1>
-            <div className="p-4 flex justify-center ">
-                <div className="flex flex-wrap">
-                    <CardGroup style={{ width: "18rem" }}>
-                        {isWeb3Enabled ? (
-                            fetchingListedNfts ? (
-                                <div>Loading....</div>
-                            ) : (
-                                listedNfts.map((nft) => {
-                                    console.log("Attributes:", nft.attributes)
-                                    const { tokenId, tokenURI, holder } = nft.attributes
-                                    return (
-                                        <div>
-                                            <PassedAwayUser
-                                                tokenId={tokenId}
-                                                owner={holder}
-                                                key={`${tokenId}${holder}`}
-                                            />
-                                        </div>
-                                    )
-                                })
+            <h1 className="py-4 px-4 font-bold text-2xl">Receently Listed</h1>
+            <div className="flex flex-wrap">
+                {isWeb3Enabled ? (
+                    fetchingListedNfts ? (
+                        <div>Loading....</div>
+                    ) : (
+                        listedNfts.map((nft) => {
+                            console.log("Attributes:", nft.attributes)
+                            const { tokenId, tokenURI, holder } = nft.attributes
+                            return (
+                                <div className="m-2">
+                                    <PassedAwayUser
+                                        tokenId={tokenId}
+                                        owner={holder}
+                                        key={`${tokenId}${holder}`}
+                                    />
+                                </div>
                             )
-                        ) : (
-                            <div>Web3 Currently not enabled</div>
-                        )}
-                    </CardGroup>
-                </div>
+                        })
+                    )
+                ) : (
+                    <div>Web3 Currently not enabled</div>
+                )}
             </div>
         </div>
     )

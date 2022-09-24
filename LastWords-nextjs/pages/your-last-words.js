@@ -19,7 +19,7 @@ export default function Home() {
     const chainString = chainId ? parseInt(chainId).toString() : "31337"
     const LastWordsNftAddress = "0x669F829D85D9b275F9E07683D3cc8692f27F6491" //"0x5fbdb2315678afecb367f032d93f642f64180aa3"
     const contractAddresses = require("../constants/networkMapping.json")
-    const lastWordsManagerAddress = "0x73d08047f4b06C27d6A3a77C587554D686f3ddF9" //contractAddresses[chainString].LastWordsManager[0]"0xfdc85F8dE4EfC0635c3369B36a2711D9F12145E6"
+    const lastWordsManagerAddress = "0xD90Ea49ee9852C2125CAf2b93ECAA8B8a67277E5" //contractAddresses[chainString].LastWordsManager[0]"0xfdc85F8dE4EfC0635c3369B36a2711D9F12145E6"
     const [userImageURI, setUserImageURI] = useState("")
     const [userName, setUserName] = useState("")
     const [userCity, setUserCity] = useState("")
