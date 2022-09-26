@@ -39,7 +39,9 @@ Go to the local host and you will see the front-end. You can interact with the b
 
 ## Visuals
 This section is mainly about interacting using my [deployed version](https://last-words-last-words-nextjs-33go.vercel.app/) of the front-end. If your wallet not connected you will be asked to conenct using the conenct button: <br />
-![image](https://user-images.githubusercontent.com/40506647/192311054-b41a95c7-c44f-4c41-9ef3-8fd0dc18a3b8.png)
+<p align="center">
+  <img src="[http://some_place.com/image.png](https://user-images.githubusercontent.com/40506647/192311054-b41a95c7-c44f-4c41-9ef3-8fd0dc18a3b8.png)" />
+</p>
 <br />
 After you connect your home page will reload with the recently listed last words: <br />
 ![image](https://user-images.githubusercontent.com/40506647/192310252-1450f837-f480-491c-8014-fcfe73b3e530.png)
