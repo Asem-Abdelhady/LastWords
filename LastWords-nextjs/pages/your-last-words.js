@@ -376,7 +376,7 @@ export default function Home() {
                         id="Main Form"
                         buttonConfig={{ theme: "primary" }}
                     ></Form>
-                    <Button theme="secondary" text="mint" onClick={mint}></Button>
+                    {/* <Button theme="secondary" text="mint" onClick={mint}></Button>
                     <Button theme="secondary" text="usersNumber" onClick={getUsersNumber}></Button>
                     <Button theme="secondary" text="interval" onClick={getUserInterval}></Button>
                     <Button
@@ -401,7 +401,7 @@ export default function Home() {
                         theme="secondary"
                         text="sendLastWords"
                         onClick={sendLastWords}
-                    ></Button>
+                    ></Button> */}
                 </div>
             ) : (
                 <div>
