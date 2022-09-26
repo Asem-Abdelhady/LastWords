@@ -38,17 +38,17 @@ yarn run dev
 Go to the local host and you will see the front-end. You can interact with the blockchain using the visual part. However, it is under development for more functionalities. If you wish to use the one I already deployed in [https://last-words-last-words-nextjs-33go.vercel.app/](https://last-words-last-words-nextjs-33go.vercel.app/) feel free and follow the [Visuals section](#Visuals).
 
 ## Visuals
-This section is mainly about interacting using my [deployed version](https://last-words-last-words-nextjs-33go.vercel.app/) of the front-end. If your wallet not connected you will be asked to conenct using the cconenct button:
+This section is mainly about interacting using my [deployed version](https://last-words-last-words-nextjs-33go.vercel.app/) of the front-end. If your wallet not connected you will be asked to conenct using the conenct button: <br />
 ![image](https://user-images.githubusercontent.com/40506647/192311054-b41a95c7-c44f-4c41-9ef3-8fd0dc18a3b8.png)
-
-After you connect your home page will reload with the recently listed last words
+<br />
+After you connect your home page will reload with the recently listed last words: <br />
 ![image](https://user-images.githubusercontent.com/40506647/192310252-1450f837-f480-491c-8014-fcfe73b3e530.png)
-
-You can view the last words of anyone by pressing in the button
+<br />
+You can view the last words of anyone by pressing in the button: <br />
 ![image](https://user-images.githubusercontent.com/40506647/192311888-60fec742-3705-4ecb-bf73-3f08efacef6f.png)
-
-To make your own last words go to [your-last-words](https://last-words-last-words-nextjs-33go.vercel.app/your-last-words) page where you will be asked to enter your data
-
+<br />
+To make your own last words go to [your-last-words](https://last-words-last-words-nextjs-33go.vercel.app/your-last-words) page where you will be asked to enter your data:<br />
+<br />
 ![image](https://user-images.githubusercontent.com/40506647/192312506-0c275096-2c15-4b81-8f1b-7582dec391d4.png)
 After you will make a transaction to store your data on the blockchain before it's minted when the interval passes. Unfortunately, ***Due to lack of the Link token*** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
 
