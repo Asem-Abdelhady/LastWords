@@ -55,6 +55,7 @@ After you will make a transaction to store your data on the blockchain before it
 ## Future improvements
 - [ ] Add the edit part in the front-end your-last-words page
 - [ ] Let the user upload his picture instead of providing an IPFS link for it
+- [ ] Add more user's info in the last-words NFT card
 - [ ] Create data structre to store the users where their last-words NFT's been already minted
 - [ ] Adding some require statments in the Last-Words Manager to ensure that the reansaction reverts in case of any suspecious events
 - [ ] Use ownable pattern if the project is going to handle ethers transaction matters
