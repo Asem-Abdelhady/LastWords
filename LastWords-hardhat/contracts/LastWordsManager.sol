@@ -44,13 +44,6 @@ contract LastWordsManager is KeeperCompatibleInterface {
     event InervalSetFromUser(uint256 interval, address indexed user);
     event LastWordsSent(address indexed passedAwayUserAddress, string indexed passedAwayUserURI);
     event UpkeepPerformed(string indexed);
-    event InsideLastWords(string indexed);
-    event InsideFor(address indexed);
-    event OutsideIf();
-    event InsideIndexesOf();
-    event CalculateData(bool indexed passed, uint256 indexed last_time, uint256 indexed stamp);
-    event InsideIfMint();
-    event InsideForOfMint();
 
     constructor(
         uint256 regsiterationFee,
@@ -92,24 +85,20 @@ contract LastWordsManager is KeeperCompatibleInterface {
     function performUpkeep(
         bytes calldata /*performData*/
     ) external override {
-        emit UpkeepPerformed("performeeeeeeed");
+        emit UpkeepPerformed("Perfromed form Upkeep");
         s_lastTimeCheck = block.timestamp;
         //(address[] memory deadUsers, uint256[] memory idxs) = getDeadUsers();
         //sendLastWords();
-        emit InsideLastWords("inside last words");
         address[] memory users = s_users;
         address[] memory deadUsers = new address[](s_users.length);
         uint256 count = 0;
 
         for (uint256 idx = 0; idx < s_users.length; idx++) {
-            emit InsideFor(users[idx]);
             address userAddress = users[idx];
             uint256 interval = s_addressToUser[userAddress].interval;
             uint256 lastTimeStamp = s_addressToUser[userAddress].lastTimeStamp;
             bool x = (block.timestamp - lastTimeStamp) >= interval;
-            emit CalculateData(x, lastTimeStamp, block.timestamp);
             if ((block.timestamp - lastTimeStamp >= interval) && !s_hasPassedAway[userAddress]) {
-                emit InsideIndexesOf();
                 deadUsers[count] = userAddress;
                 s_hasPassedAway[userAddress] = true;
                 //delete s_users[idx];
@@ -118,13 +107,10 @@ contract LastWordsManager is KeeperCompatibleInterface {
         }
 
         if (deadUsers.length > 0 && deadUsers[0] != address(0)) {
-            emit InsideIfMint();
             for (uint256 idx = 0; idx < deadUsers.length; idx++) {
-                emit InsideForOfMint();
                 mint(deadUsers[idx]);
             }
         }
-        emit OutsideIf();
     }
 
     function setIntervalFromUser(uint256 interval) public payable {
@@ -188,7 +174,7 @@ contract LastWordsManager is KeeperCompatibleInterface {
         emit LastWordsSent(userAddress, "hey");
     }
 
-    function getDeadUsers() public view returns (address[] memory, uint256[] memory) {
+    function getPassedAwayUsers() public view returns (address[] memory, uint256[] memory) {
         address[] memory users = s_users;
         address[] memory deadUsers = new address[](users.length);
         uint256[] memory idxs = new uint256[](users.length);
@@ -207,20 +193,16 @@ contract LastWordsManager is KeeperCompatibleInterface {
     }
 
     function sendLastWords() public {
-        emit InsideLastWords("inside last words");
         address[] memory users = s_users;
         address[] memory deadUsers = new address[](s_users.length);
         uint256 count = 0;
 
         for (uint256 idx = 0; idx < s_users.length; idx++) {
-            emit InsideFor(users[idx]);
             address userAddress = users[idx];
             uint256 interval = s_addressToUser[userAddress].interval;
             uint256 lastTimeStamp = s_addressToUser[userAddress].lastTimeStamp;
             bool x = (block.timestamp - lastTimeStamp) >= interval;
-            emit CalculateData(x, lastTimeStamp, block.timestamp);
             if (block.timestamp - lastTimeStamp >= interval) {
-                emit InsideIndexesOf();
                 deadUsers[count] = userAddress;
                 delete s_users[idx];
                 count++;
@@ -228,15 +210,12 @@ contract LastWordsManager is KeeperCompatibleInterface {
         }
 
         if (deadUsers.length > 0 && deadUsers[0] != address(0)) {
-            emit InsideIfMint();
             for (uint256 idx = 0; idx < deadUsers.length; idx++) {
-                emit InsideForOfMint();
                 User memory user = s_addressToUser[deadUsers[idx]];
                 i_lastWordsNft.mintNft(user.tokenURI, deadUsers[idx]);
                 delete (s_addressToUser[deadUsers[idx]]);
                 emit LastWordsSent(deadUsers[idx], "hey");
             }
         }
-        emit OutsideIf();
     }
 }
