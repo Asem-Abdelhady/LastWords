@@ -43,15 +43,26 @@ This section is mainly about interacting using my [deployed version](https://las
   <img src="https://user-images.githubusercontent.com/40506647/192311054-b41a95c7-c44f-4c41-9ef3-8fd0dc18a3b8.png" />
 </p>
 <br />
+
 After you connect your home page will reload with the recently listed last words: <br />
-![image](https://user-images.githubusercontent.com/40506647/192310252-1450f837-f480-491c-8014-fcfe73b3e530.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/40506647/192310252-1450f837-f480-491c-8014-fcfe73b3e530.png" />
+</p>
 <br />
+
 You can view the last words of anyone by pressing in the button: <br />
-![image](https://user-images.githubusercontent.com/40506647/192311888-60fec742-3705-4ecb-bf73-3f08efacef6f.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/40506647/192311888-60fec742-3705-4ecb-bf73-3f08efacef6f.png" />
+</p>
 <br />
+
+
 To make your own last words go to [your-last-words](https://last-words-last-words-nextjs-33go.vercel.app/your-last-words) page where you will be asked to enter your data:<br />
 <br />
-![image](https://user-images.githubusercontent.com/40506647/192312506-0c275096-2c15-4b81-8f1b-7582dec391d4.png) <br />
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/40506647/192312506-0c275096-2c15-4b81-8f1b-7582dec391d4.png" />
+</p>
+<br />
 After you will make a transaction to store your data on the blockchain before it's minted when the interval passes. Unfortunately, ***Due to lack of the Link token*** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
 
 ## Future improvements
