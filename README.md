@@ -35,7 +35,7 @@ Using the front-end that is inside the [front-end directory](https://github.com/
 yarn install
 yarn run dev
 ``` 
-Go to the local host and you will see the front-end. You can interact with the blockchain using the visual part. However, it is under development for more functionalities. If you wish to use the one I already deployed in [https://last-words-last-words-nextjs-33go.vercel.app/](https://last-words-last-words-nextjs-33go.vercel.app/) feel free and follow the [Visuals section](#Visuals).
+Go to the local host and you will see the front-end. You can interact with the blockchain using the visual part. However, it is under development for more functionalities. If you wish to use the one I already deployed in [https://last-words-last-words-nextjs-33go.vercel.app/](https://last-words-last-words-nextjs-33go.vercel.app/) feel free and follow the [Visuals section](#Visuals) but make sure you are connected to ***Goerli testnet***.
 
 ## Visuals
 This section is mainly about interacting using my [deployed version](https://last-words-last-words-nextjs-33go.vercel.app/) of the front-end. If your wallet not connected you will be asked to conenct using the conenct button: <br />
