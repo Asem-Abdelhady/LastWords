@@ -35,7 +35,7 @@ Using the front-end that is inside the [front-end directory](https://github.com/
 yarn install
 yarn run dev
 ``` 
-Go to the local host and you will see the front-end. You can interact with the blockchain using the visual part. However, it is under development for more functionalities. If you wish to use the one I already deployed in [https://last-words-last-words-nextjs-33go.vercel.app/](https://last-words-last-words-nextjs-33go.vercel.app/) feel free and follow the [Visuals section](#Visuals) but make sure you are connected to **Goerli testnet**.
+Go to the local host and you will see the front-end. You can interact with the blockchain using the visual part. However, it is under development for more functionalities. If you wish to use the one I already deployed in [https://last-words-last-words-nextjs-33go.vercel.app/](https://last-words-last-words-nextjs-33go.vercel.app/) feel free and follow the [Visuals section](#Visuals) but make sure you are connected to ***Goerli testnet***.
 
 ## Visuals
 This section is mainly about interacting using my [deployed version](https://last-words-last-words-nextjs-33go.vercel.app/) of the front-end. If your wallet not connected you will be asked to conenct using the conenct button: <br />
@@ -63,7 +63,8 @@ To make your own last words go to [your-last-words](https://last-words-last-word
   <img src="https://user-images.githubusercontent.com/40506647/192312506-0c275096-2c15-4b81-8f1b-7582dec391d4.png" />
 </p>
 <br />
-After you will make a transaction to store your data on the blockchain before it's minted when the interval passes. Unfortunately, ***Due to lack of the Link token*** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
+After you will make a transaction to store your data on the blockchain before it's minted when the interval passes.
+Unfortunately, ***Due to lack of the Link token*** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
 
 ## Future improvements
 - [ ] Add the edit part in the front-end your-last-words page
