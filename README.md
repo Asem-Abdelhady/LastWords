@@ -49,7 +49,7 @@ You can view the last words of anyone by pressing in the button: <br />
 <br />
 To make your own last words go to [your-last-words](https://last-words-last-words-nextjs-33go.vercel.app/your-last-words) page where you will be asked to enter your data:<br />
 <br />
-![image](https://user-images.githubusercontent.com/40506647/192312506-0c275096-2c15-4b81-8f1b-7582dec391d4.png)
+![image](https://user-images.githubusercontent.com/40506647/192312506-0c275096-2c15-4b81-8f1b-7582dec391d4.png) <br />
 After you will make a transaction to store your data on the blockchain before it's minted when the interval passes. Unfortunately, ***Due to lack of the Link token*** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
 
 ## Future improvements
