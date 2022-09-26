@@ -64,7 +64,7 @@ To make your own last words go to [your-last-words](https://last-words-last-word
 </p>
 <br />
 After you will make a transaction to store your data on the blockchain before it's minted when the interval passes.
-Unfortunately, ***Due to lack of the Link token*** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
+Unfortunately, **Due to lack of the Link token** I stopped the auto-checking up on the intervals from the chain keepers on my chain-link keeprs account
 
 ## Future improvements
 - [ ] Add the edit part in the front-end your-last-words page
